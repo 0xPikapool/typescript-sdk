@@ -48,9 +48,9 @@ export default async function createTypedData(
       auctionName,
       auctionAddress,
       bidder,
-      amount: "0x" + amount.toString(16),
-      basePrice: basePriceBn.toHexString(),
-      tip: tipBn.toHexString(),
+      amount: amount.toString(16),
+      basePrice: basePriceBn.toString(),
+      tip: tipBn.toString(),
     },
   };
 }

@@ -1,4 +1,4 @@
-import { providers, utils, Wallet } from "ethers";
+import { BigNumber } from "ethers";
 import {
   PikapoolOptions,
   PikapoolOptionOverrides,
@@ -20,9 +20,20 @@ export default async function submitBid(
     ...DEFAULT_PIKAPOOL_OPTIONS,
     ...pikapoolOptionOverrides,
   };
-  // Add the Domain to the types before sending to the server
+  // Add the Domain to the types and convert units to hex before sending to
+  // the mempool
   const typedDataToSend = {
     ...typedBidData,
+    domain: {
+      ...typedBidData.domain,
+      chainId: BigNumber.from(typedBidData.domain.chainId).toHexString(),
+    },
+    message: {
+      ...typedBidData.message,
+      amount: BigNumber.from(typedBidData.message.amount).toHexString(),
+      tip: BigNumber.from(typedBidData.message.tip).toHexString(),
+      basePrice: BigNumber.from(typedBidData.message.basePrice).toHexString(),
+    },
     types: {
       EIP712Domain: [
         {
