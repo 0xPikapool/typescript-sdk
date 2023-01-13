@@ -1,7 +1,7 @@
 # Pikapool TypeScript SDK
 
 <p align="center">
-  <img src="./assets/pika_portal.jpg" />
+  <img src="https://raw.githubusercontent.com/0xPikapool/typescript-sdk/main/assets/pika_portal.jpg" />
   <p align="center">
     Your TypeScript gateway to The Pikapool universe ⚡
   </p>
