@@ -1,6 +1,6 @@
 {
   "name": "@pikapool/sdk",
-  "version": "0.1.0-beta.3",
+  "version": "0.1.0-beta.4",
   "description": "Pikapool SDK",
   "type": "module",
   "main": "dist/index.js",

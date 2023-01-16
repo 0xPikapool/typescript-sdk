@@ -10,21 +10,34 @@ const DEFAULT_PIKAPOOL_OPTIONS: PikapoolOptions = {
   rpcUrl: "https://api.pikapool.cool/v0/bids",
 };
 
+export interface CreateTypedDataParams {
+  auctionName: string;
+  auctionAddress: `0x${string}`;
+  basePrice: number;
+  amount: number;
+  tip: number;
+  bidder: string;
+  chainId: number;
+  pikapoolOptionOverrides?: PikapoolOptionOverrides;
+}
+
 export default async function createTypedData(
-  auctionName: string,
-  auctionAddress: `0x${string}`,
-  basePrice: number,
-  amount: number,
-  tip: number,
-  bidder: string,
-  chainId: number = 1,
-  pikapoolOptionOverrides: PikapoolOptionOverrides = DEFAULT_PIKAPOOL_OPTIONS
+  params: CreateTypedDataParams
 ): Promise<TypedBidData> {
+  const {
+    auctionName,
+    auctionAddress,
+    basePrice,
+    amount,
+    tip,
+    bidder,
+    chainId,
+  } = params;
   const basePriceBn = utils.parseEther(basePrice.toString());
   const tipBn = utils.parseEther(tip.toString());
   const pikapoolOptions: PikapoolOptions = {
     ...DEFAULT_PIKAPOOL_OPTIONS,
-    ...pikapoolOptionOverrides,
+    ...(params.pikapoolOptionOverrides || {}),
   };
   return {
     primaryType: "Bid",

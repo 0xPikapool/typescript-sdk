@@ -13,18 +13,22 @@ const DEFAULT_PIKAPOOL_OPTIONS: PikapoolOptions = {
   rpcUrl: "https://api.pikapool.cool/v0/bids",
 };
 
-export default function useBid(
-  auctionName: string,
-  auctionAddress: `0x${string}`,
-  basePrice: number,
-  amount: number,
-  tip: number,
-  signer: providers.JsonRpcSigner | Wallet | undefined,
-  pikapoolOptionOverrides: PikapoolOptionOverrides = DEFAULT_PIKAPOOL_OPTIONS
-) {
+export interface UseBidParams {
+  auctionName: string;
+  auctionAddress: `0x${string}`;
+  basePrice: number;
+  amount: number;
+  tip: number;
+  signer: providers.JsonRpcSigner | Wallet | undefined;
+  pikapoolOptionOverrides?: PikapoolOptionOverrides;
+}
+
+export default function useBid(params: UseBidParams) {
+  const { auctionName, auctionAddress, basePrice, amount, tip, signer } =
+    params;
   const pikapoolOptions: PikapoolOptions = {
     ...DEFAULT_PIKAPOOL_OPTIONS,
-    ...pikapoolOptionOverrides,
+    ...(params.pikapoolOptionOverrides || {}),
   };
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -43,16 +47,16 @@ export default function useBid(
       setError(null);
       setReceipt(null);
       const chainId = (await signer.provider.getNetwork()).chainId;
-      const typedData = await createTypedData(
+      const typedData = await createTypedData({
         auctionName,
         auctionAddress,
         basePrice,
         amount,
         tip,
-        await signer.getAddress(),
+        bidder: await signer.getAddress(),
         chainId,
-        pikapoolOptions
-      );
+        pikapoolOptionOverrides: pikapoolOptions,
+      });
 
       const sig = await signer._signTypedData(
         typedData.domain,
