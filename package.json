@@ -1,8 +1,8 @@
 {
   "name": "@pikapool/sdk",
-  "version": "0.1.0-beta.6",
+  "version": "0.1.0-beta.7",
   "description": "Pikapool SDK",
-  "type": "module",
+  "type": "commonjs",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
