@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { providers, Wallet } from "ethers";
+import { BigNumber, providers, Wallet } from "ethers";
 import {
   PikapoolOptions,
   PikapoolOptionOverrides,
@@ -16,9 +16,9 @@ const DEFAULT_PIKAPOOL_OPTIONS: PikapoolOptions = {
 export interface UseBidParams {
   auctionName: string;
   auctionAddress: `0x${string}`;
-  basePrice: number;
+  basePrice: BigNumber;
   amount: number;
-  tip: number;
+  tip: BigNumber;
   signer: providers.JsonRpcSigner | Wallet | undefined;
   pikapoolOptionOverrides?: PikapoolOptionOverrides;
 }

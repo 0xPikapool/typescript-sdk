@@ -1,4 +1,4 @@
-import { providers, utils, Wallet } from "ethers";
+import { BigNumber } from "ethers";
 import {
   PikapoolOptions,
   PikapoolOptionOverrides,
@@ -13,9 +13,9 @@ const DEFAULT_PIKAPOOL_OPTIONS: PikapoolOptions = {
 export interface CreateTypedDataParams {
   auctionName: string;
   auctionAddress: `0x${string}`;
-  basePrice: number;
+  basePrice: BigNumber;
   amount: number;
-  tip: number;
+  tip: BigNumber;
   bidder: string;
   chainId: number;
   pikapoolOptionOverrides?: PikapoolOptionOverrides;
@@ -33,8 +33,6 @@ export default async function createTypedData(
     bidder,
     chainId,
   } = params;
-  const basePriceBn = utils.parseEther(basePrice.toString());
-  const tipBn = utils.parseEther(tip.toString());
   const pikapoolOptions: PikapoolOptions = {
     ...DEFAULT_PIKAPOOL_OPTIONS,
     ...(params.pikapoolOptionOverrides || {}),
@@ -61,9 +59,9 @@ export default async function createTypedData(
       auctionName,
       auctionAddress,
       bidder,
-      amount: amount.toString(16),
-      basePrice: basePriceBn.toString(),
-      tip: tipBn.toString(),
+      amount: amount.toString(),
+      basePrice: basePrice.toString(),
+      tip: tip.toString(),
     },
   };
 }
